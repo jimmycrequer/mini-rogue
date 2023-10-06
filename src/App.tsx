@@ -1,26 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { FC } from "react";
+import { Outlet } from "react-router-dom";
+import { CharacterProvider } from "./characterContext";
+import { Header } from "./components/Header";
 
-function App() {
+const App: FC = () => {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+      <CharacterProvider>
+        <Header />
+
+        <main
+          className="min-h-screen p-1"
+          style={{
+            borderImage: `url(/back-parchment.png)`,
+            borderImageSlice: "15 fill",
+            borderWidth: 15,
+            borderImageRepeat: "round",
+          }}
         >
-          Learn React
-        </a>
-      </header>
+          <Outlet />
+        </main>
+      </CharacterProvider>
     </div>
   );
-}
+};
 
 export default App;
