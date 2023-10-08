@@ -103,10 +103,30 @@ const characterReducer = (character: Character, action: Action): Character => {
         return character;
       }
 
+      const dependantSkills = KnightSkills.filter((skill) => skill.requires?.includes(action.skill)).map((s) => s.id);
+      const dependantDeepSkills = KnightSkills.filter(
+        (skill) => skill.requires?.some((s) => dependantSkills.includes(s)),
+      ).map((s) => s.id);
+
+      // when removing a skill, also remove all skills that requires it
+      // (also for other skills that requires any skill above)
+      const newSkills = character.skills.filter((s) => {
+        if (s == action.skill) return false;
+
+        if (dependantSkills.includes(s)) return false;
+        if (dependantDeepSkills.includes(s)) return false;
+
+        return true;
+      });
+
+      // make sure usedXP is calculated from the remaining skills
+      // because there is a probability to remove multiple skills at the same time
+      const newUsedXP = newSkills.reduce((sum, curr) => sum + KnightSkills.find((skill) => skill.id == curr)!.cost, 0);
+
       return {
         ...character,
-        usedXP: character.usedXP - skill.cost,
-        skills: character.skills.filter((s) => s != action.skill),
+        usedXP: newUsedXP,
+        skills: newSkills,
       };
     }
   }
