@@ -33,7 +33,8 @@ const Skill: FC<TSkillProps> = ({ skill }) => {
   return (
     <>
       <div className="flex flex-col items-center gap-1">
-        <div>
+        {/* set large width to ensure text fits within one line */}
+        <div className="w-40 text-center">
           <span className={`uppercase text-[9px] ${textColor}`}>{skill.name}</span>
         </div>
 
