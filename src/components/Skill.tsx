@@ -1,10 +1,10 @@
-import { FC, PropsWithChildren, useEffect, useState } from "react";
+import { FC, PropsWithChildren } from "react";
 import { TSkill } from "../skills";
 
 // import resolveConfig from "tailwindcss/resolveConfig";
 // import tailwindConfig from "../../tailwind.config";
 import { Character, useCharacter, useCharacterDispatch } from "../characterContext";
-import LineTo from "react-lineto";
+import SkillLine from "./SkillLine";
 
 // const fullConfig = resolveConfig(tailwindConfig);
 
@@ -20,9 +20,6 @@ const Skill: FC<TSkillProps> = ({ skill }) => {
 
   const outerIconSrc = buildOuterIconSrc(character, skill);
   const innerIconSrc = buildInnerIconSrc(character, skill);
-
-  const [showRequirements, setShowRequirements] = useState(false);
-  useEffect(() => setShowRequirements(true), []);
 
   const handleClick = () => {
     if (character.level < skill.level || !meetsRequirements) return;
@@ -66,46 +63,7 @@ const Skill: FC<TSkillProps> = ({ skill }) => {
         </div>
       </div>
 
-      {showRequirements &&
-        skill.requires?.map((otherSkill) => {
-          const fromNode = document.getElementsByClassName(`${otherSkill}`)[0];
-          const toNode = document.getElementsByClassName(`${skill.id}`)[0];
-
-          const diff = fromNode.getBoundingClientRect().y - toNode.getBoundingClientRect().y;
-
-          const offset = 15;
-
-          let anchorLeft = 45;
-          let anchorRight = 45;
-
-          if (diff > 0) {
-            anchorLeft -= offset;
-            anchorRight += offset;
-          }
-          if (diff < 0) {
-            anchorLeft += offset;
-            anchorRight -= offset;
-          }
-
-          const meetsRequirements = character.skills.includes(otherSkill);
-
-          // const color = meetsRequirements ? (fullConfig.theme!.colors!["knight-skill"] as string) : "#C1C1C1";
-          const color = meetsRequirements ? "#78B3A3" : "#C1C1C1";
-
-          return (
-            <div key={otherSkill} className="absolute">
-              <LineTo
-                from={`${otherSkill}`}
-                fromAnchor={`103 ${anchorLeft}`}
-                to={`${skill.id}`}
-                toAnchor={`-3 ${anchorRight}`}
-                delay={100}
-                borderWidth={3}
-                borderColor={color}
-              />
-            </div>
-          );
-        })}
+      {skill.requires?.map((otherSkill) => <SkillLine key={otherSkill} from={otherSkill} to={skill.id} />)}
     </>
   );
 };
