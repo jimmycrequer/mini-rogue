@@ -7,7 +7,7 @@ const Home: FC = () => {
         Arbre de compétences pour le jeu <span className="font-bold">Mini Rogue</span>.
       </div>
 
-      <div className="mt-4">
+      <div className="mt-4 font-bold">
         <div>Extension fan-made pour usage personnel uniquement.</div>
       </div>
 
