@@ -98,6 +98,11 @@ const characterReducer = (character: Character, action: Action): Character => {
 
       const skill = KnightSkills.find((s) => s.id == action.skill)!;
 
+      // prevent removing auto skill
+      if (skill.auto) {
+        return character;
+      }
+
       return {
         ...character,
         usedXP: character.usedXP - skill.cost,
