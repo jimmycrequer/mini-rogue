@@ -41,7 +41,9 @@ const Skill: FC<TSkillProps> = ({ skill }) => {
         <div className={`${skill.id} relative ${skillSize}`} onClick={handleClick}>
           <img src={outerIconSrc} alt={skill.name} className="w-full h-full" />
           {!hasLearntSkill && skill.cost > 0 && (
-            <span className={`absolute w-full h-full left-0 top-0 flex items-center justify-center ${textColor}`}>
+            <span
+              className={`absolute w-full h-full left-0 top-0 flex items-center justify-center select-none ${textColor}`}
+            >
               {skill.cost}XP
             </span>
           )}

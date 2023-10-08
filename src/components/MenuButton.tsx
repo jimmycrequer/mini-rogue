@@ -14,7 +14,7 @@ const MenuButton: FC<TMenuButtonProps> = ({ href, onClick, disabled = false, act
 
   return (
     <div
-      className={`flex items-center justify-center ${textColor} w-full h-full`}
+      className={`flex items-center justify-center ${textColor} w-full h-full select-none`}
       style={{
         borderImage: `url(/header/${borderImage}) 15 fill round`,
         borderWidth: 15,

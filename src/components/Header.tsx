@@ -116,7 +116,7 @@ export const Header = () => {
               onClick={() => dispatch({ type: "decrementXP" })}
             />
             <div
-              className="h-10 w-10 bg-cover flex items-center justify-center font-semibold text-2xl pb-2"
+              className="h-10 w-10 bg-cover flex items-center justify-center font-semibold text-2xl pb-2 select-none"
               style={{
                 backgroundImage: "url(/header/xp-back.png)",
                 fontFamily: "Playfair Display",
@@ -140,7 +140,7 @@ export const Header = () => {
           </div>
           <div className="flex gap-1 justify-center mt-2">
             <div
-              className={`h-10 w-10 bg-cover flex items-center justify-center font-semibold text-2xl pb-2 ${usedXPColor}`}
+              className={`h-10 w-10 bg-cover flex items-center justify-center font-semibold text-2xl pb-2 select-none ${usedXPColor}`}
               style={{
                 backgroundImage: "url(/header/xp-back.png)",
                 fontFamily: "Playfair Display",
