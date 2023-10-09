@@ -19,11 +19,8 @@ export const Header = () => {
   const [showClassesList, setShowClassesList] = useState(false);
 
   const chooseClass = (e: SyntheticEvent, newCharacterClass: Character["class"]) => {
-    const dispatchClass = character.class != newCharacterClass ? newCharacterClass : undefined;
-    const nextRoute = character.class != newCharacterClass ? "/tree" : "/rules";
-
-    dispatch({ type: "changeClass", class: dispatchClass });
-    navigate(nextRoute);
+    dispatch({ type: "changeClass", class: newCharacterClass });
+    navigate("/tree");
 
     setShowClassesList(false);
 

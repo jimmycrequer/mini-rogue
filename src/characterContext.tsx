@@ -36,11 +36,11 @@ const characterReducer = (character: Character, action: Action): Character => {
   switch (action.type) {
     case "changeClass":
       return {
-        class: character.class != action.class ? action.class : undefined,
+        class: action.class,
         level: 1,
         gainedXP: 0,
         usedXP: 0,
-        skills: [],
+        skills: KnightSkills.filter((skill) => skill.level == 1 && skill.auto).map((s) => s.id),
       };
 
     case "incrementXP": {
