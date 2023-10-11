@@ -44,3 +44,22 @@ export const KnightSkills: TSkill[] = [
     requires: [11, 13],
   },
 ];
+
+export const HealerSkills: TSkill[] = [
+  { id: 1, name: "apothicaire 1", level: 2, cost: 1, auto: false },
+  { id: 2, name: "apothicaire 2", level: 2, cost: 1, auto: false },
+  { id: 3, name: "double soins", level: 2, cost: 2, auto: false },
+  { id: 4, name: "triple potions", level: 3, cost: 3, auto: false, requires: [3] },
+  { id: 5, name: "armure divine", level: 2, cost: 3, auto: false },
+  { id: 6, name: "sanctification", level: 1, cost: 0, auto: true },
+  { id: 7, name: "philantrope", level: 2, cost: 0, auto: true },
+  { id: 8, name: "sacrifice", level: 2, cost: 1, auto: false },
+  { id: 9, name: "jeûne spirituel", level: 2, cost: 1, auto: false },
+  { id: 10, name: "sagacité", level: 2, cost: 1, auto: false, requires: [9] },
+  { id: 11, name: "grâce divine", level: 2, cost: 2, auto: false, requires: [10] },
+  { id: 12, name: "nécromancie", level: 2, cost: 4, auto: false, requires: [9] },
+  { id: 13, name: "exorcisme", level: 2, cost: 4, auto: false, requires: [12] },
+]
+
+export const WizardSkills: TSkill[] = [];
+export const RogueSkills: TSkill[] = [];

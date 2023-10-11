@@ -1,7 +1,8 @@
+import { FC } from "react";
 import Skill from "./Skill";
 import { KnightSkills } from "../skills";
 
-export default function KnightTree() {
+const KnightTree: FC = () => {
   return (
     <div className="flex flex-col gap-4 main">
       <div>
@@ -53,4 +54,6 @@ export default function KnightTree() {
       </div>
     </div>
   );
-}
+};
+
+export default KnightTree;

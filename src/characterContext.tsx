@@ -1,4 +1,4 @@
-import { KnightSkills } from "./skills";
+import { HealerSkills, KnightSkills, RogueSkills, TSkill, WizardSkills } from "./skills";
 import { FC, PropsWithChildren, createContext, useContext, useReducer, Dispatch } from "react";
 
 export type Character = {
@@ -15,6 +15,13 @@ export type Action =
   | { type: "decrementXP" }
   | { type: "addSkill"; skill: number }
   | { type: "removeSkill"; skill: number };
+
+const skills: Record<Exclude<Character["class"], undefined>, TSkill[]> = {
+  Knight: KnightSkills,
+  Healer: HealerSkills,
+  Wizard: WizardSkills,
+  Rogue: RogueSkills,
+};
 
 const CharacterContext = createContext<Character>({} as Character);
 const CharacterDispatchContext = createContext<Dispatch<Action>>({} as Dispatch<Action>);
@@ -34,25 +41,30 @@ export const useCharacterDispatch = () => useContext(CharacterDispatchContext);
 
 const characterReducer = (character: Character, action: Action): Character => {
   switch (action.type) {
-    case "changeClass":
+    case "changeClass": {
+      const newSkills = action.class
+        ? skills[action.class].filter((skill) => skill.level == 1 && skill.auto).map((s) => s.id)
+        : [];
+
       return {
         class: action.class,
         level: 1,
         gainedXP: 0,
         usedXP: 0,
-        skills: KnightSkills.filter((skill) => skill.level == 1 && skill.auto).map((s) => s.id),
+        skills: newSkills,
       };
+    }
 
     case "incrementXP": {
       if (!character.class) return character;
 
       const newGainedXP = Math.min(character.gainedXP + 1, 23);
       const newLevel = computeLevel(newGainedXP);
-      const skills =
+      const newSkills =
         character.level != newLevel
           ? [
               ...character.skills,
-              ...KnightSkills.filter((skill) => skill.level == newLevel && skill.auto).map((s) => s.id),
+              ...skills[character.class].filter((skill) => skill.level == newLevel && skill.auto).map((s) => s.id),
             ]
           : character.skills;
 
@@ -60,7 +72,7 @@ const characterReducer = (character: Character, action: Action): Character => {
         ...character,
         gainedXP: newGainedXP,
         level: newLevel,
-        skills,
+        skills: newSkills,
       };
     }
 
@@ -82,7 +94,7 @@ const characterReducer = (character: Character, action: Action): Character => {
         return character;
       }
 
-      const skill = KnightSkills.find((s) => s.id == action.skill)!;
+      const skill = skills[character.class!].find((s) => s.id == action.skill)!;
 
       return {
         ...character,
@@ -96,17 +108,19 @@ const characterReducer = (character: Character, action: Action): Character => {
         return character;
       }
 
-      const skill = KnightSkills.find((s) => s.id == action.skill)!;
+      const skill = skills[character.class!].find((s) => s.id == action.skill)!;
 
       // prevent removing auto skill
       if (skill.auto) {
         return character;
       }
 
-      const dependantSkills = KnightSkills.filter((skill) => skill.requires?.includes(action.skill)).map((s) => s.id);
-      const dependantDeepSkills = KnightSkills.filter(
-        (skill) => skill.requires?.some((s) => dependantSkills.includes(s)),
-      ).map((s) => s.id);
+      const dependantSkills = skills[character.class!]
+        .filter((skill) => skill.requires?.includes(action.skill))
+        .map((s) => s.id);
+      const dependantDeepSkills = skills[character.class!]
+        .filter((skill) => skill.requires?.some((s) => dependantSkills.includes(s)))
+        .map((s) => s.id);
 
       // when removing a skill, also remove all skills that requires it
       // (also for other skills that requires any skill above)
@@ -121,7 +135,10 @@ const characterReducer = (character: Character, action: Action): Character => {
 
       // make sure usedXP is calculated from the remaining skills
       // because there is a probability to remove multiple skills at the same time
-      const newUsedXP = newSkills.reduce((sum, curr) => sum + KnightSkills.find((skill) => skill.id == curr)!.cost, 0);
+      const newUsedXP = newSkills.reduce(
+        (sum, curr) => sum + skills[character.class!].find((skill) => skill.id == curr)!.cost,
+        0,
+      );
 
       return {
         ...character,
@@ -133,11 +150,11 @@ const characterReducer = (character: Character, action: Action): Character => {
 };
 
 const initialCharacter: Character = {
-  class: undefined, // "Knight",
+  class: undefined,
   level: 1,
   gainedXP: 0,
   usedXP: 0,
-  skills: [], // KnightSkills.filter((skill) => skill.level == 2 && skill.auto).map((s) => s.id),
+  skills: [],
 };
 
 const computeLevel = (points: number) => {

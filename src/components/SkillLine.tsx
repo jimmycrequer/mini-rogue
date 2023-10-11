@@ -1,11 +1,18 @@
 import { useWindowSize } from "@uidotdev/usehooks";
 import { FC, PropsWithChildren, useState, useEffect } from "react";
 import LineTo from "react-lineto";
-import { useCharacter } from "../characterContext";
+import { Character, useCharacter } from "../characterContext";
 
 type TProps = PropsWithChildren & {
   from: number;
   to: number;
+};
+
+const trees: Record<Exclude<Character["class"], undefined>, string> = {
+  Knight: "#78B3A3",
+  Healer: "#D85A4A",
+  Wizard: "",
+  Rogue: "",
 };
 
 const SkillLine: FC<TProps> = ({ from, to }) => {
@@ -22,26 +29,26 @@ const SkillLine: FC<TProps> = ({ from, to }) => {
 
   if (!fromNode || !toNode) return <div />;
 
-  const diff = fromNode.getBoundingClientRect().y - toNode.getBoundingClientRect().y;
+  const axisFrom = fromNode.getBoundingClientRect().y + fromNode.getBoundingClientRect().height / 2;
+  const axisTo = toNode.getBoundingClientRect().y + toNode.getBoundingClientRect().height / 2;
 
   const offset = 15;
 
   let anchorLeft = 45;
-  let anchorRight = 45;
+  let anchorRight = 46;
 
-  if (diff > 0) {
+  if (axisFrom > axisTo) {
     anchorLeft -= offset;
     anchorRight += offset;
   }
-  if (diff < 0) {
+  if (axisFrom < axisTo) {
     anchorLeft += offset;
     anchorRight -= offset;
   }
 
   const meetsRequirements = character.skills.includes(from);
 
-  // const color = meetsRequirements ? (fullConfig.theme!.colors!["knight-skill"] as string) : "#C1C1C1";
-  const color = meetsRequirements ? "#78B3A3" : "#C1C1C1";
+  const color = meetsRequirements ? trees[character.class!] : "#C1C1C1";
 
   return (
     <div className="absolute">

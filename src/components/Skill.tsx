@@ -1,16 +1,12 @@
 import { FC, PropsWithChildren } from "react";
 import { TSkill } from "../skills";
 
-// import resolveConfig from "tailwindcss/resolveConfig";
-// import tailwindConfig from "../../tailwind.config";
 import { Character, useCharacter, useCharacterDispatch } from "../characterContext";
 import SkillLine from "./SkillLine";
 
-// const fullConfig = resolveConfig(tailwindConfig);
+type TSkillProps = PropsWithChildren & { skill: TSkill; iconClassName?: string };
 
-type TSkillProps = PropsWithChildren & { skill: TSkill };
-
-const Skill: FC<TSkillProps> = ({ skill }) => {
+const Skill: FC<TSkillProps> = ({ skill, iconClassName = "" }) => {
   const character = useCharacter();
   const dispatch = useCharacterDispatch();
 
@@ -20,6 +16,7 @@ const Skill: FC<TSkillProps> = ({ skill }) => {
 
   const outerIconSrc = buildOuterIconSrc(character, skill);
   const innerIconSrc = buildInnerIconSrc(character, skill);
+  const bottomIconSrc = buildBottomIconSrc(character, skill);
 
   const handleClick = () => {
     if (character.level < skill.level || !meetsRequirements) return;
@@ -37,35 +34,31 @@ const Skill: FC<TSkillProps> = ({ skill }) => {
           set large width to ensure text fits within one line
           however if set too large, will create a visual bug with the class selection menu 
         */}
-        <div className="w-28 text-center">
+        <div className={`w-28 text-center`}>
           <span className={`uppercase font-bold text-[9px] ${textColor}`}>{skill.name}</span>
         </div>
 
-        <div className={`${skill.id} relative ${skillSize}`} onClick={handleClick}>
-          <img src={outerIconSrc} alt={skill.name} className="w-full h-full" />
-          {!hasLearntSkill && skill.cost > 0 && (
-            <span
-              className={`absolute w-full h-full left-0 top-0 flex items-center justify-center select-none ${textColor}`}
-            >
-              {skill.cost}XP
-            </span>
-          )}
+        <div className={iconClassName}>
+          <div className={`${skill.id} relative ${skillSize}`} onClick={handleClick}>
+            <img src={outerIconSrc} alt={skill.name} className="w-full h-full" />
+            {!hasLearntSkill && skill.cost > 0 && (
+              <span
+                className={`absolute w-full h-full left-0 top-0 flex items-center justify-center select-none ${textColor}`}
+              >
+                {skill.cost}XP
+              </span>
+            )}
 
-          {hasLearntSkill && innerIconSrc && (
-            <span className="absolute left-0 top-0 w-full h-full flex items-center justify-center">
-              <img src={innerIconSrc} alt={skill.name} className="h-6" />
-            </span>
-          )}
+            {hasLearntSkill && innerIconSrc && (
+              <span className="absolute left-0 top-0 w-full h-full flex items-center justify-center">
+                <img src={innerIconSrc} alt={skill.name} className="h-6" />
+              </span>
+            )}
+          </div>
         </div>
 
         <div>
-          <img
-            src={`/trees/knight/skills/${skill.id}${
-              !meetsRequirements || (!hasLearntSkill && !hasRequiredLevel) ? "-disabled" : ""
-            }.png`}
-            alt={skill.name}
-            className="h-4"
-          />
+          <img src={bottomIconSrc} alt={skill.name} className="h-4" />
         </div>
       </div>
 
@@ -88,6 +81,16 @@ const buildInnerIconSrc = (character: Character, skill: TSkill) => {
   if (skill.auto) return "";
 
   return `/trees/${character.class!.toLowerCase()}/filled.png`;
+};
+
+const buildBottomIconSrc = (character: Character, skill: TSkill) => {
+  const hasRequiredLevel = character.level >= skill.level;
+  const hasLearntSkill = character.skills.includes(skill.id);
+  const meetsRequirements = skill.requires ? skill.requires?.every((s) => character.skills.includes(s)) : true;
+
+  const disabled = !meetsRequirements || (!hasLearntSkill && !hasRequiredLevel);
+
+  return `/trees/${character.class!.toLowerCase()}/skills/${skill.id}${disabled ? "-disabled" : ""}.png`;
 };
 
 export default Skill;
