@@ -61,5 +61,19 @@ export const HealerSkills: TSkill[] = [
   { id: 13, name: "exorcisme", level: 2, cost: 4, auto: false, requires: [12] },
 ]
 
-export const WizardSkills: TSkill[] = [];
+export const WizardSkills: TSkill[] = [
+  { id: 1, name: "armure magique", level: 2, cost: 3, auto: false },
+  { id: 2, name: "armure magique", level: 2, cost: 3, auto: false, requires: [1] },
+  { id: 3, name: "double sorts", level: 2, cost: 2, auto: false },
+  { id: 4, name: "triple potions", level: 3, cost: 3, auto: false, requires: [3] },
+  { id: 5, name: "professeur", level: 2, cost: 2, auto: false },
+  { id: 6, name: "ambidextrie", level: 3, cost: 3, auto: false },
+  { id: 7, name: "prémonition", level: 2, cost: 1, auto: false },
+  { id: 8, name: "oeil du prophète", level: 3, cost: 3, auto: false, requires: [7] },
+  { id: 9, name: "alchimie", level: 2, cost: 0, auto: true },
+  { id: 10, name: "réduction", level: 2, cost: 1, auto: false, requires: [9] },
+  { id: 11, name: "saignée", level: 2, cost: 1, auto: false, requires: [9] },
+  { id: 12, name: "dépeçage", level: 2, cost: 1, auto: false, requires: [9] },
+];
+
 export const RogueSkills: TSkill[] = [];

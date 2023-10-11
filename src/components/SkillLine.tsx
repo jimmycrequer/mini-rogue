@@ -11,7 +11,7 @@ type TProps = PropsWithChildren & {
 const trees: Record<Exclude<Character["class"], undefined>, string> = {
   Knight: "#78B3A3",
   Healer: "#D85A4A",
-  Wizard: "",
+  Wizard: "#D29147",
   Rogue: "",
 };
 
