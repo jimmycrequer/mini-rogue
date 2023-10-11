@@ -30,7 +30,7 @@ const WizardTree: FC = () => {
         </div>
       </div>
       <div className="grid grid-cols-3 gap-4">
-        <Skill skill={WizardSkills[4]} />
+        <Skill skill={WizardSkills[4]} iconClassName="pt-2" />
         <div />
         <Skill skill={WizardSkills[5]} />
       </div>
