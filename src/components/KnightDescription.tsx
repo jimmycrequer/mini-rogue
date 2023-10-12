@@ -1,7 +1,11 @@
-export default function KnightDescription() {
+import { FC } from "react";
+
+const KnightDescription: FC = () => {
   return (
     <div>
+      {/* ================================ COMPETENCES ================================ */}
       <div className="flex flex-col gap-4">
+        {/* maître d'arme */}
         <div>
           <div>
             <span className="skill-knight mr-2 text-lg">maître d'arme</span>
@@ -10,6 +14,7 @@ export default function KnightDescription() {
           <div>Achète les armures 4 pièces d'or</div>
         </div>
 
+        {/* boucher */}
         <div>
           <div>
             <span className="skill-knight mr-2 text-lg">boucher</span>
@@ -18,6 +23,7 @@ export default function KnightDescription() {
           <div>Peut vendre ses rations pour un nombre de pièces d'or correspondant à l'étage en cours</div>
         </div>
 
+        {/* malédiction */}
         <div>
           <div>
             <span className="skill-knight mr-2 text-lg">malédiction</span>
@@ -29,6 +35,7 @@ export default function KnightDescription() {
           </div>
         </div>
 
+        {/* pas de gâchis */}
         <div>
           <div>
             <span className="skill-knight mr-2 text-lg">pas de gâchis</span>
@@ -40,6 +47,7 @@ export default function KnightDescription() {
           </div>
         </div>
 
+        {/* avant-garde */}
         <div>
           <div>
             <span className="skill-knight mr-2 text-lg">avant-garde</span>
@@ -52,6 +60,7 @@ export default function KnightDescription() {
           </div>
         </div>
 
+        {/* festin */}
         <div>
           <div>
             <span className="skill-knight mr-2 text-lg">festin</span>
@@ -63,6 +72,7 @@ export default function KnightDescription() {
           </div>
         </div>
 
+        {/* tératovore */}
         <div>
           <div>
             <span className="skill-knight mr-2 text-lg">tératovore</span>
@@ -74,6 +84,7 @@ export default function KnightDescription() {
           </div>
         </div>
 
+        {/* berserk */}
         <div>
           <div>
             <span className="skill-knight mr-2 text-lg">berserk</span>
@@ -101,6 +112,7 @@ export default function KnightDescription() {
           </div>
         </div>
 
+        {/* immunité */}
         <div>
           <div>
             <span className="skill-knight mr-2 text-lg">immunité</span>
@@ -109,6 +121,7 @@ export default function KnightDescription() {
           <div>Immunité au poison pendant la durée d'activation du mode « Berserk »</div>
         </div>
 
+        {/* bonus d'armure 1 et 2 */}
         <div>
           <div>
             <span className="skill-knight mr-2 text-lg">bonus d'armure 1 et 2</span>
@@ -120,6 +133,7 @@ export default function KnightDescription() {
           </div>
         </div>
 
+        {/* peau de fer */}
         <div>
           <div>
             <span className="skill-knight mr-2 text-lg">peau de fer</span>
@@ -131,6 +145,7 @@ export default function KnightDescription() {
           </div>
         </div>
 
+        {/* prouesse efficace */}
         <div>
           <div>
             <span className="skill-knight mr-2 text-lg">prouesse efficace</span>
@@ -142,6 +157,7 @@ export default function KnightDescription() {
           </div>
         </div>
 
+        {/* armure efficace */}
         <div>
           <div>
             <span className="skill-knight mr-2 text-lg">armure efficace</span>
@@ -158,6 +174,7 @@ export default function KnightDescription() {
 
       <div className="text-base font-semibold underline mb-2">Précisions sur les compétences</div>
 
+      {/* ================================ PRECISIONS ================================ */}
       <div className="flex flex-col gap-4">
         <p>
           Lors de l'utilisation de la compétence <span className="skill-knight">avant-garde</span>, si les joueurs sont
@@ -256,4 +273,6 @@ export default function KnightDescription() {
       </div>
     </div>
   );
-}
+};
+
+export default KnightDescription;
