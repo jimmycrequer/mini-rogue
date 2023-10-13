@@ -53,7 +53,7 @@ export const Header = () => {
         <div className="col-span-4 flex gap-1">
           <div className="flex-grow">
             <MenuButton onClick={toggleClassesList} active={showClassesList}>
-              choisissez une classe
+              choisir une classe
             </MenuButton>
           </div>
 

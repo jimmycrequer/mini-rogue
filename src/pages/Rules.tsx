@@ -4,7 +4,6 @@ const Rules: FC = () => {
   return (
     <div>
       <div className="text-center">
-        <div className="uppercase text-xl font-bold">arbres de compétences</div>
         <div className="font-bold text-base">Compléments et modifications des règles du jeu</div>
       </div>
 
@@ -18,7 +17,7 @@ const Rules: FC = () => {
           </div>
           <div className="flex items-center">
             <img src="/class-knight.png" alt="img" className="h-6 mr-2" />
-            <span>Chevaliers : Croisé et Bone</span>
+            <span>Chevaliers : Croisé et Bones</span>
           </div>
           <div className="flex items-center">
             <img src="/class-wizard.png" alt="img" className="h-6 mr-2" />
@@ -31,12 +30,45 @@ const Rules: FC = () => {
         </div>
       </div>
 
+      <div className="text-base font-semibold underline mt-8 mb-2">Plateaux joueurs</div>
+
+      <div>
+        <p>Cette extension nécessite un plateau joueur personnalisé en fonction de la classe choisie.</p>
+        <p className="mt-2">
+          Un plateau joueur{" "}
+          <a
+            className="underline text-amber-700"
+            href="https://drive.google.com/file/d/1ZwDLBxqlHQZ863UooIrRdED7Qj0JAnjh/view"
+            target="_blank"
+          >
+            Chevaliers et Voleurs
+          </a>
+        </p>
+        <p>
+          Un plateau joueur{" "}
+          <a
+            className="underline text-amber-700"
+            href="https://drive.google.com/file/d/1gHLGzeWg6OHXkxOEMrHcVEVjD2OAfbgN/view"
+            target="_blank"
+          >
+            Guérisseurs et Magiciens
+          </a>
+        </p>
+        <p className="mt-2">
+          Télécharger la{" "}
+          <a className="underline text-amber-700" href="</a>" target="_blank">
+            version imprimable des plateaux joueurs
+          </a>
+          .
+        </p>
+      </div>
+
       <div className="text-base font-semibold underline mt-8 mb-2">Statistiques</div>
 
       <div>
         <p>
           Les magiciens et les voleurs ont moins de PV et moins de points d'armure que les chevaliers et les guérisseurs
-          (cf plateau des joueurs).
+          (cf plateaux joueurs).
         </p>
         <p>
           Ils ont également une armure moins résistante que les chevaliers et les guérisseurs. Une attaque ennemie
@@ -58,7 +90,7 @@ const Rules: FC = () => {
         <div>
           <p>
             <img src="/class-wizard.png" alt="img" className="h-6 mr-1 inline" />
-            <span className="font-semibold underline">Les magiciens</span>
+            <span className="underline">Les magiciens</span>
           </p>
           <p>
             Les magiciens ont accès à toutes les potions et peuvent utiliser librement 2 cubes de potion sur les
@@ -76,7 +108,7 @@ const Rules: FC = () => {
         <div>
           <p>
             <img src="/class-healer.png" alt="img" className="h-6 mr-1 inline" />
-            <span className="font-semibold underline">Les guérisseurs</span>
+            <span className="underline">Les guérisseurs</span>
           </p>
           <p>
             Les guérisseurs ont accès aux potions d'attaque (feu, glace et poison), ainsi qu'aux potions de soin et
@@ -104,7 +136,7 @@ const Rules: FC = () => {
         <div>
           <p>
             <img src="/class-knight.png" alt="img" className="h-6 mr-1 inline" />
-            <span className="font-semibold underline">Les chevaliers</span>
+            <span className="underline">Les chevaliers</span>
           </p>
           <p>Les chevaliers ont accès à des potions de malédiction, ainsi qu'aux potions de soin et bénédiction.</p>
           <p className="mt-4">
@@ -120,7 +152,7 @@ const Rules: FC = () => {
         <div>
           <p>
             <img src="/class-rogue.png" alt="img" className="h-6 mr-1 inline" />
-            <span className="font-semibold underline">Les voleurs</span>
+            <span className="underline">Les voleurs</span>
           </p>
           <p>Les voleurs ont accès à des potions de perception, ainsi qu'aux potions de soin et bénédiction.</p>
           <p className="mt-4">

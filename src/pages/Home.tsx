@@ -3,17 +3,22 @@ import { FC } from "react";
 const Home: FC = () => {
   return (
     <div>
-      <div>
-        Arbre de compétences pour le jeu <span className="font-bold">Mini Rogue</span>.
+      <div className="font-bold text-center">Arbre de compétences</div>
+
+      <div className="mt-4">
+        Cette extension a été créée pour inclure des différences de gameplay en fonction des classes tout en conservant
+        le gameplay général du jeu officiel <span className="font-bold">Mini Rogue</span>.
       </div>
 
-      <div className="mt-4 font-bold">
-        <div>Extension fan-made pour usage personnel uniquement.</div>
+      <div className="mt-4">
+        <div>
+          Il s'agit d'une <span className="font-bold">extension fan-made pour un usage personnel uniquement</span>.
+        </div>
       </div>
 
       <div className="mt-8">
         <div>
-          Crédits <span className="font-bold">Mini Rogue</span> :
+          Crédits du jeu officiel <span className="font-bold">Mini Rogue</span> :
         </div>
         <div> Conception : Paolo Di Stefano et Gabriel Gendron</div>
         <div>Illustrations : Gabriel Gendron</div>
