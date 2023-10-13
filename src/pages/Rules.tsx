@@ -56,7 +56,11 @@ const Rules: FC = () => {
         </p>
         <p className="mt-2">
           Télécharger la{" "}
-          <a className="underline text-amber-700" href="</a>" target="_blank">
+          <a
+            className="underline text-amber-700"
+            href="https://drive.google.com/file/d/17Dzx75fPJ_ZJUZF2JbWZEQp8CwhabZHL/view"
+            target="_blank"
+          >
             version imprimable des plateaux joueurs
           </a>
           .
