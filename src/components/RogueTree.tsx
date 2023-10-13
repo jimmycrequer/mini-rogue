@@ -6,7 +6,7 @@ const RogueTree: FC = () => {
   return (
     <div className="flex flex-col gap-4 main">
       <div className="grid grid-cols-3 gap-4">
-        <div>
+        <div className="w-28">
           <img src="/trees/common/combat.png" alt="combat" className="inline h-5 mr-2" />
           <span>(en combat)</span>
         </div>

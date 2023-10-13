@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Mini Rogue",
+  "name": "Extension Arbres de Compétences pour le jeu Mini Rogue",
   "icons": [
     {
       "src": "favicon.ico",
