@@ -76,4 +76,21 @@ export const WizardSkills: TSkill[] = [
   { id: 12, name: "dépeçage", level: 2, cost: 1, auto: false, requires: [9] },
 ];
 
-export const RogueSkills: TSkill[] = [];
+export const RogueSkills: TSkill[] = [
+  { id: 1, name: "esquive", level: 2, cost: 0, auto: true },
+  { id: 2, name: "grande bourse", level: 2, cost: 4, auto: false },
+  { id: 3, name: "charisme", level: 2, cost: 1, auto: false },
+  { id: 4, name: "négociation", level: 2, cost: 1, auto: false, requires: [3] },
+  { id: 5, name: "vol à l'étalage", level: 2, cost: 3, auto: false, requires: [4] },
+  { id: 6, name: "substitution", level: 1, cost: 0, auto: true },
+  { id: 7, name: "bienveillance", level: 2, cost: 0, auto: true },
+  { id: 8, name: "dextérité", level: 2, cost: 2, auto: false },
+  { id: 9, name: "détrousseur", level: 2, cost: 2, auto: false, requires: [8] },
+  { id: 10, name: "dresseur", level: 2, cost: 1, auto: false, requires: [8] },
+  { id: 11, name: "second souffle", level: 2, cost: 1, auto: false },
+  { id: 12, name: "coup de grâce", level: 2, cost: 1, auto: false },
+  { id: 13, name: "furtivité", level: 2, cost: 1, auto: false },
+  { id: 14, name: "passage secret", level: 2, cost: 1, auto: false },
+  { id: 15, name: "troisième oeil", level: 3, cost: 2, auto: false, requires: [11, 12, 13, 14] },
+  { id: 16, name: "bonne fortune", level: 3, cost: 3, auto: false },
+];

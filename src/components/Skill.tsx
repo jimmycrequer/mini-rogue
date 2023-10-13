@@ -4,9 +4,9 @@ import { TSkill } from "../skills";
 import { Character, useCharacter, useCharacterDispatch } from "../characterContext";
 import SkillLine from "./SkillLine";
 
-type TSkillProps = PropsWithChildren & { skill: TSkill; iconClassName?: string };
+type TSkillProps = PropsWithChildren & { skill: TSkill; iconClassName?: string; additionalLabel?: string };
 
-const Skill: FC<TSkillProps> = ({ skill, iconClassName = "" }) => {
+const Skill: FC<TSkillProps> = ({ skill, iconClassName = "", additionalLabel }) => {
   const character = useCharacter();
   const dispatch = useCharacterDispatch();
 
@@ -35,7 +35,8 @@ const Skill: FC<TSkillProps> = ({ skill, iconClassName = "" }) => {
           however if set too large, will create a visual bug with the class selection menu 
         */}
         <div className={`w-28 text-center`}>
-          <span className={`uppercase font-bold text-[9px] ${textColor}`}>{skill.name}</span>
+          <div className={`uppercase font-bold text-[9px] ${textColor}`}>{skill.name}</div>
+          {additionalLabel && <div className={`text-[8px] ${textColor}`}>{additionalLabel}</div>}
         </div>
 
         <div className={iconClassName}>

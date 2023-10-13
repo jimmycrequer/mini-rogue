@@ -1,7 +1,7 @@
 import { useWindowSize } from "@uidotdev/usehooks";
 import { FC, PropsWithChildren, useState, useEffect } from "react";
 import LineTo from "react-lineto";
-import { Character, useCharacter } from "../characterContext";
+import { Character, skills, useCharacter } from "../characterContext";
 
 type TProps = PropsWithChildren & {
   from: number;
@@ -12,7 +12,7 @@ const trees: Record<Exclude<Character["class"], undefined>, string> = {
   Knight: "#78B3A3",
   Healer: "#D85A4A",
   Wizard: "#D29147",
-  Rogue: "",
+  Rogue: "#A1738C",
 };
 
 const SkillLine: FC<TProps> = ({ from, to }) => {
@@ -32,18 +32,29 @@ const SkillLine: FC<TProps> = ({ from, to }) => {
   const axisFrom = fromNode.getBoundingClientRect().y + fromNode.getBoundingClientRect().height / 2;
   const axisTo = toNode.getBoundingClientRect().y + toNode.getBoundingClientRect().height / 2;
 
+  const toSkill = skills[character.class!].find((skill) => skill.id == to)!;
+
   const offset = 15;
+  let rightOffset = offset;
+
+  if (toSkill.requires!.length == 4) {
+    const fromIdx = toSkill.requires!.indexOf(from);
+
+    if (fromIdx == 1 || fromIdx == 2) {
+      rightOffset = 5;
+    }
+  }
 
   let anchorLeft = 45;
   let anchorRight = 46;
 
   if (axisFrom > axisTo) {
     anchorLeft -= offset;
-    anchorRight += offset;
+    anchorRight += rightOffset;
   }
   if (axisFrom < axisTo) {
     anchorLeft += offset;
-    anchorRight -= offset;
+    anchorRight -= rightOffset;
   }
 
   const meetsRequirements = character.skills.includes(from);

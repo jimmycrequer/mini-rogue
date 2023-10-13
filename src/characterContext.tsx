@@ -16,7 +16,7 @@ export type Action =
   | { type: "addSkill"; skill: number }
   | { type: "removeSkill"; skill: number };
 
-const skills: Record<Exclude<Character["class"], undefined>, TSkill[]> = {
+export const skills: Record<Exclude<Character["class"], undefined>, TSkill[]> = {
   Knight: KnightSkills,
   Healer: HealerSkills,
   Wizard: WizardSkills,
