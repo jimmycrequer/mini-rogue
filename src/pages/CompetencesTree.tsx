@@ -85,7 +85,7 @@ const CompetencesTree: FC = () => {
         {/* need to pass context inside canvas to work */}
         <CharacterContext.Provider value={character}>
           <CharacterDispatchContext.Provider value={dispatch}>
-            <RogueTree />
+            {trees[character.class!]}
           </CharacterDispatchContext.Provider>
         </CharacterContext.Provider>
       </Stage>

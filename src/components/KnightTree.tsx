@@ -1,58 +1,57 @@
 import { FC } from "react";
 import Skill from "./Skill";
 import { KnightSkills } from "../skills";
+import { Container } from "@pixi/react";
+import MerchantLabel from "./trees/MerchantLabel";
+import ExplorationLabel from "./trees/ExplorationLabel";
+import BattleLabel from "./trees/BattleLabel";
+import SkillLine from "./SkillLine";
 
 const KnightTree: FC = () => {
+  const cols = [120, 370, 630];
+
   return (
-    <div className="flex flex-col gap-4 main">
-      <div>
-        <img src="/trees/common/marchand.png" alt="marchand" className="inline h-5 mr-2" />
-        <span>(chez le marchand)</span>
-      </div>
-      <div className="grid grid-cols-3 gap-4">
-        <Skill skill={KnightSkills[0]} />
-        <Skill skill={KnightSkills[1]} />
-      </div>
+    <Container y={20}>
+      <MerchantLabel />
 
-      <div>
-        <img src="/trees/common/exploration.png" alt="exploration" className="inline h-5 mr-2" />
-        <span>(en exploration)</span>
-      </div>
-      <div className="grid grid-cols-3 gap-4">
-        <Skill skill={KnightSkills[2]} />
-        <Skill skill={KnightSkills[3]} />
-        <Skill skill={KnightSkills[4]} />
-        <Skill skill={KnightSkills[5]} />
-        <Skill skill={KnightSkills[6]} />
-      </div>
+      <Container y={110}>
+        <Skill skill={KnightSkills[0]} x={cols[0]} />
+        <Skill skill={KnightSkills[1]} x={cols[1]} />
+      </Container>
 
-      <div>
-        <img src="/trees/common/combat.png" alt="combat" className="inline h-5 mr-2" />
-        <span>(en combat)</span>
-      </div>
-      <div className="grid grid-cols-3 gap-4">
-        <Skill skill={KnightSkills[7]} />
-        <div className="relative">
-          <div className="absolute -top-8 w-full h-full">
-            <Skill skill={KnightSkills[8]} />
-          </div>
-        </div>
-        <div />
+      <ExplorationLabel y={270} />
 
-        <Skill skill={KnightSkills[9]} />
-        <Skill skill={KnightSkills[10]} />
-        <div className="relative">
-          <div className="absolute -top-12 w-full h-full">
-            <Skill skill={KnightSkills[11]} />
-          </div>
-          <div className="absolute top-12 w-full h-full">
-            <Skill skill={KnightSkills[13]} />
-          </div>
-        </div>
+      <Container y={380}>
+        <Skill skill={KnightSkills[2]} x={cols[0]} />
+        <Skill skill={KnightSkills[3]} x={cols[1]} />
+        <Skill skill={KnightSkills[4]} x={cols[2]} />
+      </Container>
 
-        <Skill skill={KnightSkills[12]} />
-      </div>
-    </div>
+      <Container y={570}>
+        <Skill skill={KnightSkills[5]} x={cols[0]} />
+        <Skill skill={KnightSkills[6]} x={cols[1]} />
+      </Container>
+
+      <BattleLabel y={730} />
+
+      <Skill skill={KnightSkills[7]} x={cols[0]} y={840} />
+      <Skill skill={KnightSkills[9]} x={cols[0]} y={1050} />
+      <Skill skill={KnightSkills[12]} x={cols[0]} y={1250} />
+
+      <Skill skill={KnightSkills[8]} x={cols[1]} y={780} />
+      <Skill skill={KnightSkills[10]} x={cols[1]} y={1050} />
+
+      <Skill skill={KnightSkills[11]} x={cols[2]} y={930} />
+      <Skill skill={KnightSkills[13]} x={cols[2]} y={1160} />
+
+      <SkillLine from={6} to={7} />
+      <SkillLine from={8} to={9} fromAnchor={0.33} />
+      <SkillLine from={8} to={12} fromAnchor={0.66} toAnchor={0.33} />
+      <SkillLine from={10} to={11} />
+      <SkillLine from={11} to={12} fromAnchor={0.33} toAnchor={0.66} />
+      <SkillLine from={11} to={14} fromAnchor={0.66} toAnchor={0.33} />
+      <SkillLine from={13} to={14} fromAnchor={0.33} toAnchor={0.66} />
+    </Container>
   );
 };
 

@@ -11,9 +11,17 @@ type TSkillProps = PropsWithChildren & {
   y?: number;
   additionalLabel?: string;
   labelPosition?: "top" | "left";
+  bottomIconOffset?: number;
 };
 
-const Skill: FC<TSkillProps> = ({ skill, x = 0, y = 0, additionalLabel, labelPosition = "top" }) => {
+const Skill: FC<TSkillProps> = ({
+  skill,
+  x = 0,
+  y = 0,
+  additionalLabel,
+  labelPosition = "top",
+  bottomIconOffset = 0,
+}) => {
   const character = useCharacter();
   const dispatch = useCharacterDispatch();
 
@@ -60,7 +68,7 @@ const Skill: FC<TSkillProps> = ({ skill, x = 0, y = 0, additionalLabel, labelPos
         <Text text={`${skill.cost}XP`} anchor={[0.5, 0.5]} style={new PIXI.TextStyle({ fill: textColor })} />
       )}
 
-      <Sprite image={bottomIconSrc} y={40} anchor={[0.5, 0]} />
+      <Sprite image={bottomIconSrc} x={bottomIconOffset} y={40} anchor={[0.5, 0]} />
     </Container>
   );
 };

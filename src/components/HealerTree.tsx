@@ -1,58 +1,59 @@
 import { FC } from "react";
 import Skill from "./Skill";
 import { HealerSkills } from "../skills";
+import { Container } from "@pixi/react";
+import MerchantLabel from "./trees/MerchantLabel";
+import StatisticsLabel from "./trees/StatisticsLabel";
+import ExplorationLabel from "./trees/ExplorationLabel";
+import SkillLine from "./SkillLine";
 
 const HealerTree: FC = () => {
+  const cols = [100, 350, 610];
+
   return (
-    <div className="flex flex-col gap-4 main">
-      <div>
-        <img src="/trees/common/marchand.png" alt="marchand" className="inline h-5 mr-2" />
-        <span>(chez le marchand)</span>
-      </div>
-      <div className="grid grid-cols-3 gap-4">
-        <Skill skill={HealerSkills[0]} />
-        <Skill skill={HealerSkills[1]} />
-      </div>
+    <Container y={20}>
+      <MerchantLabel />
 
-      <div>
-        <img src="/trees/common/statistiques.png" alt="statistiques" className="inline h-5 mr-2" />
-        <span>(statistiques)</span>
-      </div>
-      <div className="grid grid-cols-3 gap-4">
-        <Skill skill={HealerSkills[2]} iconClassName="pt-2" />
-        <Skill skill={HealerSkills[3]} />
-        <div />
-        <Skill skill={HealerSkills[4]} />
-      </div>
+      <Container y={110}>
+        <Skill skill={HealerSkills[0]} x={cols[0]} />
+        <Skill skill={HealerSkills[1]} x={cols[1]} />
+      </Container>
 
-      <div>
-        <img src="/trees/common/exploration.png" alt="exploration" className="inline h-5 mr-2" />
-        <span>(en exploration)</span>
-      </div>
-      <div className="grid grid-cols-3 gap-4 gap-y-16 mb-12">
-        <Skill skill={HealerSkills[5]} />
-        <Skill skill={HealerSkills[6]} />
-        <Skill skill={HealerSkills[7]} />
+      <StatisticsLabel y={270} />
 
-        <Skill skill={HealerSkills[8]} />
-        <div className="relative">
-          <div className="absolute -top-12 w-full h-full">
-            <Skill skill={HealerSkills[9]} />
-          </div>
-          <div className="absolute top-12 w-full h-full">
-            <Skill skill={HealerSkills[11]} />
-          </div>
-        </div>
-        <div className="relative">
-          <div className="absolute -top-12 w-full h-full">
-            <Skill skill={HealerSkills[10]} />
-          </div>
-          <div className="absolute top-12 w-full h-full">
-            <Skill skill={HealerSkills[12]} />
-          </div>
-        </div>
-      </div>
-    </div>
+      <Container y={380}>
+        <Skill skill={HealerSkills[2]} x={cols[0]} />
+        <Skill skill={HealerSkills[3]} x={cols[1]} />
+      </Container>
+
+      <Skill skill={HealerSkills[4]} x={cols[0]} y={570} />
+
+      <ExplorationLabel y={740} />
+
+      <Container y={870}>
+        <Skill skill={HealerSkills[5]} x={cols[0]} />
+        <Skill skill={HealerSkills[6]} x={cols[1]} />
+        <Skill skill={HealerSkills[7]} x={cols[2]} />
+      </Container>
+
+      <Container y={1060}>
+        <Skill skill={HealerSkills[9]} x={cols[1]} />
+        <Skill skill={HealerSkills[10]} x={cols[2]} />
+      </Container>
+
+      <Skill skill={HealerSkills[8]} x={cols[0]} y={1150} />
+
+      <Container y={1250}>
+        <Skill skill={HealerSkills[11]} x={cols[1]} />
+        <Skill skill={HealerSkills[12]} x={cols[2]} bottomIconOffset={-20} />
+      </Container>
+
+      <SkillLine from={3} to={4} />
+      <SkillLine from={9} to={10} fromAnchor={0.33} />
+      <SkillLine from={9} to={12} fromAnchor={0.66} />
+      <SkillLine from={10} to={11} />
+      <SkillLine from={12} to={13} />
+    </Container>
   );
 };
 
