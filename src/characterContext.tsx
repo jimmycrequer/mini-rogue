@@ -23,8 +23,8 @@ export const skills: Record<Exclude<Character["class"], undefined>, TSkill[]> = 
   Rogue: RogueSkills,
 };
 
-const CharacterContext = createContext<Character>({} as Character);
-const CharacterDispatchContext = createContext<Dispatch<Action>>({} as Dispatch<Action>);
+export const CharacterContext = createContext<Character>({} as Character);
+export const CharacterDispatchContext = createContext<Dispatch<Action>>({} as Dispatch<Action>);
 
 export const CharacterProvider: FC<PropsWithChildren> = ({ children }) => {
   const [character, dispatch] = useReducer(characterReducer, initialCharacter);

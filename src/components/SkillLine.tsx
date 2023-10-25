@@ -1,11 +1,13 @@
-import { useWindowSize } from "@uidotdev/usehooks";
-import { FC, PropsWithChildren, useState, useEffect } from "react";
-import LineTo from "react-lineto";
-import { Character, skills, useCharacter } from "../characterContext";
+import { FC } from "react";
+import { Character, useCharacter } from "../characterContext";
+import { Graphics, useApp } from "@pixi/react";
+import * as PIXI from "pixi.js";
 
-type TProps = PropsWithChildren & {
+type TProps = {
   from: number;
   to: number;
+  fromAnchor?: number;
+  toAnchor?: number;
 };
 
 const trees: Record<Exclude<Character["class"], undefined>, string> = {
@@ -15,67 +17,50 @@ const trees: Record<Exclude<Character["class"], undefined>, string> = {
   Rogue: "#A1738C",
 };
 
-const SkillLine: FC<TProps> = ({ from, to }) => {
+const SkillLine: FC<TProps> = ({ from, to, fromAnchor = 0.5, toAnchor = 0.5 }) => {
   const character = useCharacter();
-  const [show, setShow] = useState(false);
+  const app = useApp();
 
-  // force refresh after first rendering
-  // and each window size update to make sure lines are set properly
-  useEffect(() => setShow(true), []);
-  useWindowSize();
-
-  const fromNode = document.getElementsByClassName(`${from}`)[0];
-  const toNode = document.getElementsByClassName(`${to}`)[0];
-
-  if (!fromNode || !toNode) return <div />;
-
-  const axisFrom = fromNode.getBoundingClientRect().y + fromNode.getBoundingClientRect().height / 2;
-  const axisTo = toNode.getBoundingClientRect().y + toNode.getBoundingClientRect().height / 2;
-
-  const toSkill = skills[character.class!].find((skill) => skill.id == to)!;
-
-  const offset = 15;
-  let rightOffset = offset;
-
-  if (toSkill.requires!.length == 4) {
-    const fromIdx = toSkill.requires!.indexOf(from);
-
-    if (fromIdx == 1 || fromIdx == 2) {
-      rightOffset = 5;
-    }
-  }
-
-  let anchorLeft = 45;
-  let anchorRight = 46;
-
-  if (axisFrom > axisTo) {
-    anchorLeft -= offset;
-    anchorRight += rightOffset;
-  }
-  if (axisFrom < axisTo) {
-    anchorLeft += offset;
-    anchorRight -= rightOffset;
-  }
+  const fromNode = app.stage.getChildByName(from.toString(), true) as PIXI.Sprite;
+  const toNode = app.stage.getChildByName(to.toString(), true) as PIXI.Sprite;
 
   const meetsRequirements = character.skills.includes(from);
 
   const color = meetsRequirements ? trees[character.class!] : "#C1C1C1";
 
-  return (
-    <div className="absolute">
-      {show && (
-        <LineTo
-          from={`${from}`}
-          fromAnchor={`103 ${anchorLeft}`}
-          to={`${to}`}
-          toAnchor={`-3 ${anchorRight}`}
-          delay={100}
-          borderWidth={3}
-          borderColor={color}
-        />
-      )}
-    </div>
-  );
+  const draw = (g: PIXI.Graphics) => {
+    g.clear();
+
+    if (fromNode && toNode) {
+      const fromPosition = getGlobalPosition(fromNode);
+      const toPosition = getGlobalPosition(toNode);
+
+      g.lineStyle(5, color, 1);
+      g.moveTo(
+        fromPosition.x + fromNode.width / 2 + 3,
+        fromPosition.y - fromNode.height / 2 + fromNode.height * fromAnchor - 5,
+      );
+      g.lineTo(toPosition.x - toNode.width / 2 - 3, toPosition.y - toNode.height / 2 + toNode.height * toAnchor - 5);
+    }
+  };
+
+  return <Graphics draw={draw} />;
+};
+
+const getGlobalPosition = (obj: PIXI.Sprite): { x: number; y: number } => {
+  let x = obj.x;
+  let y = obj.y;
+
+  let currentObj = obj.parent;
+
+  while (currentObj != null) {
+    x += currentObj.x;
+    y += currentObj.y;
+
+    currentObj = currentObj.parent;
+  }
+
+  return { x, y };
 };
 
 export default SkillLine;

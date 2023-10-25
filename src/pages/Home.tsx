@@ -2,7 +2,7 @@ import { FC } from "react";
 
 const Home: FC = () => {
   return (
-    <div>
+    <div className="min-h-screen">
       <div className="font-bold text-center">Arbre de compétences</div>
 
       <div className="mt-4">

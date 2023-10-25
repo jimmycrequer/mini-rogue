@@ -1,89 +1,69 @@
 import { FC } from "react";
 import { RogueSkills } from "../skills";
 import Skill from "./Skill";
+import { Container } from "@pixi/react";
+import BattleLabel from "./trees/BattleLabel";
+import ExplorationLabel from "./trees/ExplorationLabel";
+import MerchantLabel from "./trees/MerchantLabel";
+import StatisticsLabel from "./trees/StatisticsLabel";
+import SkillLine from "./SkillLine";
 
 const RogueTree: FC = () => {
+  const cols = [80, 360, 640];
+
   return (
-    <div className="flex flex-col gap-4 main">
-      <div className="grid grid-cols-3 gap-4">
-        <div className="w-28">
-          <img src="/trees/common/combat.png" alt="combat" className="inline h-5 mr-2" />
-          <span>(en combat)</span>
-        </div>
-        <div className="col-span-2">
-          <img src="/trees/common/statistiques.png" alt="statistiques" className="inline h-5 mr-2" />
-          <span>(statistiques)</span>
-        </div>
-      </div>
-      <div className="grid grid-cols-3 gap-4">
-        <Skill skill={RogueSkills[0]} />
-        <Skill skill={RogueSkills[1]} />
-      </div>
+    <Container y={20}>
+      <BattleLabel />
+      <StatisticsLabel x={260} />
 
-      <div>
-        <img src="/trees/common/marchand.png" alt="marchand" className="inline h-5 mr-2" />
-        <span>(chez le marchand)</span>
-      </div>
-      <div className="grid grid-cols-3 gap-4">
-        <Skill skill={RogueSkills[2]} />
-        <Skill skill={RogueSkills[3]} />
-        <Skill skill={RogueSkills[4]} />
-      </div>
+      <Container y={110}>
+        <Skill skill={RogueSkills[0]} x={cols[0]} y={0} />
+        <Skill skill={RogueSkills[1]} x={cols[1]} y={0} />
+      </Container>
 
-      <div>
-        <img src="/trees/common/exploration.png" alt="exploration" className="inline h-5 mr-2" />
-        <span>(en exploration)</span>
-      </div>
-      <div className="grid grid-cols-3 gap-4">
-        <Skill skill={RogueSkills[5]} />
-        <div className="relative">
-          <div className="absolute top-12 w-full h-full">
-            <Skill skill={RogueSkills[7]} />
-          </div>
-        </div>
-        <Skill skill={RogueSkills[8]} />
+      <MerchantLabel y={250} />
 
-        <Skill skill={RogueSkills[6]} />
-        <div />
-        <Skill skill={RogueSkills[9]} />
+      <Container y={350}>
+        <Skill skill={RogueSkills[2]} x={cols[0]} y={0} />
+        <Skill skill={RogueSkills[3]} x={cols[1]} y={0} />
+        <Skill skill={RogueSkills[4]} x={cols[2]} y={0} />
+      </Container>
 
-        <div />
-        <div className="relative h-20">
-          <div className="absolute -left-8 w-full h-full">
-            <Skill skill={RogueSkills[10]} additionalLabel="(en combat)" />
-          </div>
-        </div>
-        <div />
+      <ExplorationLabel y={500} />
 
-        <div />
-        <div className="relative h-20">
-          <div className="absolute -left-8 w-full h-full">
-            <Skill skill={RogueSkills[11]} additionalLabel="(en combat)" />
-          </div>
-        </div>
-        <div className="relative">
-          <div className="absolute top-12 w-full h-full">
-            <Skill skill={RogueSkills[14]} />
-          </div>
-        </div>
+      <Container y={610}>
+        <Skill skill={RogueSkills[5]} x={cols[0]} y={0} />
+        <Skill skill={RogueSkills[8]} x={cols[2]} y={0} />
+      </Container>
 
-        <div />
-        <div className="relative h-20">
-          <div className="absolute -left-8 w-full h-full">
-            <Skill skill={RogueSkills[12]} additionalLabel="(chez le marchand)" />
-          </div>
-        </div>
-        <div />
+      <Skill skill={RogueSkills[7]} x={cols[1]} y={710} />
 
-        <div />
-        <div className="relative h-20">
-          <div className="absolute -left-8 w-full h-full">
-            <Skill skill={RogueSkills[13]} additionalLabel="(en exploration)" />
-          </div>
-        </div>
-        <Skill skill={RogueSkills[15]} />
-      </div>
-    </div>
+      <Container y={810}>
+        <Skill skill={RogueSkills[6]} x={cols[0]} y={0} />
+        <Skill skill={RogueSkills[9]} x={cols[2]} y={0} />
+      </Container>
+
+      <Container y={960} x={-60}>
+        <Skill skill={RogueSkills[10]} x={cols[1]} y={0} labelPosition="left" additionalLabel="(en combat)" />
+        <Skill skill={RogueSkills[11]} x={cols[1]} y={120} labelPosition="left" additionalLabel="(en combat)" />
+        <Skill skill={RogueSkills[12]} x={cols[1]} y={240} labelPosition="left" additionalLabel="(chez le marchand)" />
+        <Skill skill={RogueSkills[13]} x={cols[1]} y={360} labelPosition="left" additionalLabel="(en exploration)" />
+
+        <Skill skill={RogueSkills[14]} x={cols[2]} y={180} />
+        <Skill skill={RogueSkills[15]} x={cols[2]} y={360} />
+      </Container>
+
+      <SkillLine from={3} to={4} />
+      <SkillLine from={4} to={5} />
+
+      <SkillLine from={8} to={9} fromAnchor={0.33} toAnchor={0.66} />
+      <SkillLine from={8} to={10} fromAnchor={0.66} toAnchor={0.33} />
+
+      <SkillLine from={11} to={15} fromAnchor={0.9} toAnchor={0.3} />
+      <SkillLine from={12} to={15} fromAnchor={0.66} toAnchor={0.45} />
+      <SkillLine from={13} to={15} fromAnchor={0.33} toAnchor={0.55} />
+      <SkillLine from={14} to={15} fromAnchor={0.1} toAnchor={0.7} />
+    </Container>
   );
 };
 

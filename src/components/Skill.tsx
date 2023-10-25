@@ -1,12 +1,19 @@
 import { FC, PropsWithChildren } from "react";
 import { TSkill } from "../skills";
+import { Container, Sprite, Text } from "@pixi/react";
+import * as PIXI from "pixi.js";
 
 import { Character, useCharacter, useCharacterDispatch } from "../characterContext";
-import SkillLine from "./SkillLine";
 
-type TSkillProps = PropsWithChildren & { skill: TSkill; iconClassName?: string; additionalLabel?: string };
+type TSkillProps = PropsWithChildren & {
+  skill: TSkill;
+  x?: number;
+  y?: number;
+  additionalLabel?: string;
+  labelPosition?: "top" | "left";
+};
 
-const Skill: FC<TSkillProps> = ({ skill, iconClassName = "", additionalLabel }) => {
+const Skill: FC<TSkillProps> = ({ skill, x = 0, y = 0, additionalLabel, labelPosition = "top" }) => {
   const character = useCharacter();
   const dispatch = useCharacterDispatch();
 
@@ -24,47 +31,37 @@ const Skill: FC<TSkillProps> = ({ skill, iconClassName = "", additionalLabel }) 
     dispatch({ type: !hasLearntSkill ? "addSkill" : "removeSkill", skill: skill.id });
   };
 
-  const textColor = !meetsRequirements || (!hasLearntSkill && !hasRequiredLevel) ? "text-disabled" : "";
-  const skillSize = skill.level == 3 ? "h-14" : "h-10";
+  const labelX = labelPosition == "top" ? 0 : -40;
+  const labelY = labelPosition == "top" ? -52 : 0;
+  const labelAnchor: [number, number] = labelPosition == "top" ? [0.5, 0.5] : [1, 0.5];
+
+  const textColor = !meetsRequirements || (!hasLearntSkill && !hasRequiredLevel) ? "#C1C1C1" : "#000000";
 
   return (
-    <>
-      <div className="flex flex-col items-center gap-1">
-        {/* 
-          set large width to ensure text fits within one line
-          however if set too large, will create a visual bug with the class selection menu 
-        */}
-        <div className={`w-28 text-center`}>
-          <div className={`uppercase font-bold text-[9px] ${textColor}`}>{skill.name}</div>
-          {additionalLabel && <div className={`text-[8px] ${textColor}`}>{additionalLabel}</div>}
-        </div>
+    <Container x={x} y={y}>
+      <Text
+        text={`${skill.name.toUpperCase()}${additionalLabel ? "\n" + additionalLabel : ""}`}
+        x={labelX}
+        y={labelY}
+        anchor={labelAnchor}
+        style={new PIXI.TextStyle({ fill: textColor, align: "right", fontWeight: "bold", fontSize: 22 })}
+      />
+      <Sprite
+        name={skill.id.toString()}
+        image={outerIconSrc}
+        interactive
+        anchor={[0.5, 0.5]}
+        onpointertap={handleClick}
+      />
 
-        <div className={iconClassName}>
-          <div className={`${skill.id} relative ${skillSize}`} onClick={handleClick}>
-            <img src={outerIconSrc} alt={skill.name} className="w-full h-full" />
-            {!hasLearntSkill && skill.cost > 0 && (
-              <span
-                className={`absolute w-full h-full left-0 top-0 flex items-center justify-center select-none ${textColor}`}
-              >
-                {skill.cost}XP
-              </span>
-            )}
+      {hasLearntSkill && innerIconSrc && <Sprite image={innerIconSrc} anchor={[0.5, 0.5]} />}
 
-            {hasLearntSkill && innerIconSrc && (
-              <span className="absolute left-0 top-0 w-full h-full flex items-center justify-center">
-                <img src={innerIconSrc} alt={skill.name} className="h-6" />
-              </span>
-            )}
-          </div>
-        </div>
+      {!hasLearntSkill && skill.cost > 0 && (
+        <Text text={`${skill.cost}XP`} anchor={[0.5, 0.5]} style={new PIXI.TextStyle({ fill: textColor })} />
+      )}
 
-        <div>
-          <img src={bottomIconSrc} alt={skill.name} className="h-4" />
-        </div>
-      </div>
-
-      {skill.requires?.map((otherSkill) => <SkillLine key={otherSkill} from={otherSkill} to={skill.id} />)}
-    </>
+      <Sprite image={bottomIconSrc} y={40} anchor={[0.5, 0]} />
+    </Container>
   );
 };
 

@@ -10,7 +10,7 @@ const App: FC = () => {
         <Header />
 
         <main
-          className="min-h-screen p-1"
+          className="p-1"
           style={{
             borderImage: `url(/back-parchment.png)`,
             borderImageSlice: "15 fill",
