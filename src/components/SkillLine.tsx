@@ -38,9 +38,9 @@ const SkillLine: FC<TProps> = ({ from, to, fromAnchor = 0.5, toAnchor = 0.5 }) =
       g.lineStyle(5, color, 1);
       g.moveTo(
         fromPosition.x + fromNode.width / 2 + 3,
-        fromPosition.y - fromNode.height / 2 + fromNode.height * fromAnchor - 5,
+        fromPosition.y - fromNode.height / 2 + fromNode.height * fromAnchor,
       );
-      g.lineTo(toPosition.x - toNode.width / 2 - 3, toPosition.y - toNode.height / 2 + toNode.height * toAnchor - 5);
+      g.lineTo(toPosition.x - toNode.width / 2 - 3, toPosition.y - toNode.height / 2 + toNode.height * toAnchor);
     }
   };
 
