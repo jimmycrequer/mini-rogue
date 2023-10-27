@@ -1,12 +1,14 @@
 import { FC, useEffect, useState } from "react";
 import Skill from "./Skill";
 import { HealerSkills } from "../skills";
-import { Container } from "@pixi/react";
+import { Container, useApp } from "@pixi/react";
 import MerchantLabel from "./trees/MerchantLabel";
 import StatisticsLabel from "./trees/StatisticsLabel";
 import ExplorationLabel from "./trees/ExplorationLabel";
 import SkillLine from "./SkillLine";
 import * as PIXI from "pixi.js";
+import { useWindowSize } from "@uidotdev/usehooks";
+import { initialRatio } from "../pages/CompetencesTree";
 
 const commonTreeAssets = [
   "/trees/common/auto-disabled.png",
@@ -53,21 +55,52 @@ const healerSkillAssets = [
   "/trees/healer/skills/13-disabled.png",
 ];
 
+enum EProgress {
+  Init,
+  AssetsLoaded,
+  RequirementsShown,
+  Done,
+}
+
 const HealerTree: FC = () => {
-  const [assetsLoaded, setAssetsLoaded] = useState(false);
-  const [showRequirements, setShowRequirements] = useState(false);
+  const [progress, setProgress] = useState(EProgress.Init);
+  const app = useApp();
+  const { width, height } = useWindowSize();
 
   useEffect(() => {
-    PIXI.Assets.load([...commonTreeAssets, ...healerTreeAssets, ...healerSkillAssets]).finally(() => {
-      setAssetsLoaded(true);
-    });
-  }, []);
+    if (progress == EProgress.Init) {
+      PIXI.Assets.load([...commonTreeAssets, ...healerTreeAssets, ...healerSkillAssets]).finally(() => {
+        setProgress(EProgress.AssetsLoaded);
+      });
+
+      return;
+    }
+
+    if (progress == EProgress.AssetsLoaded) {
+      setProgress(EProgress.RequirementsShown);
+
+      return;
+    }
+
+    if (progress == EProgress.RequirementsShown) {
+      setProgress(EProgress.Done);
+
+      return;
+    }
+  }, [progress]);
 
   useEffect(() => {
-    if (assetsLoaded) setShowRequirements(true);
-  }, [assetsLoaded]);
+    const holder = document.getElementById("canvasHolder")!;
 
-  if (!assetsLoaded) return null;
+    const width = holder.clientWidth;
+    const height = holder.clientWidth * initialRatio;
+
+    if (progress == EProgress.Done) {
+      app.renderer.resize(width, height);
+    }
+  }, [progress, width, height]);
+
+  if (progress < EProgress.AssetsLoaded) return null;
 
   const cols = [100, 350, 610];
 
@@ -109,7 +142,7 @@ const HealerTree: FC = () => {
         <Skill skill={HealerSkills[12]} x={cols[2]} bottomIconOffset={-20} />
       </Container>
 
-      {showRequirements && (
+      {progress >= EProgress.RequirementsShown && (
         <Container>
           <SkillLine from={3} to={4} />
           <SkillLine from={9} to={10} fromAnchor={0.33} />

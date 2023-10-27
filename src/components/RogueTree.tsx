@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import { RogueSkills } from "../skills";
 import Skill from "./Skill";
-import { Container, Sprite, Text } from "@pixi/react";
+import { Container, Sprite, Text, useApp } from "@pixi/react";
 import BattleLabel from "./trees/BattleLabel";
 import ExplorationLabel from "./trees/ExplorationLabel";
 import MerchantLabel from "./trees/MerchantLabel";
@@ -9,6 +9,8 @@ import StatisticsLabel from "./trees/StatisticsLabel";
 import SkillLine from "./SkillLine";
 import * as PIXI from "pixi.js";
 import { useCharacter } from "../characterContext";
+import { initialRatio } from "../pages/CompetencesTree";
+import { useWindowSize } from "@uidotdev/usehooks";
 
 const commonTreeAssets = [
   "/trees/common/auto-disabled.png",
@@ -63,22 +65,53 @@ const rogueSkillAssets = [
   "/trees/rogue/skills/16-disabled.png",
 ];
 
+enum EProgress {
+  Init,
+  AssetsLoaded,
+  RequirementsShown,
+  Done,
+}
+
 const RogueTree: FC = () => {
-  const [assetsLoaded, setAssetsLoaded] = useState(false);
-  const [showRequirements, setShowRequirements] = useState(false);
+  const [progress, setProgress] = useState(EProgress.Init);
   const character = useCharacter();
+  const app = useApp();
+  const { width, height } = useWindowSize();
 
   useEffect(() => {
-    PIXI.Assets.load([...commonTreeAssets, ...rogueTreeAssets, ...rogueSkillAssets]).finally(() => {
-      setAssetsLoaded(true);
-    });
-  }, []);
+    if (progress == EProgress.Init) {
+      PIXI.Assets.load([...commonTreeAssets, ...rogueTreeAssets, ...rogueSkillAssets]).finally(() => {
+        setProgress(EProgress.AssetsLoaded);
+      });
+
+      return;
+    }
+
+    if (progress == EProgress.AssetsLoaded) {
+      setProgress(EProgress.RequirementsShown);
+
+      return;
+    }
+
+    if (progress == EProgress.RequirementsShown) {
+      setProgress(EProgress.Done);
+
+      return;
+    }
+  }, [progress]);
 
   useEffect(() => {
-    if (assetsLoaded) setShowRequirements(true);
-  }, [assetsLoaded]);
+    const holder = document.getElementById("canvasHolder")!;
 
-  if (!assetsLoaded) return null;
+    const width = holder.clientWidth;
+    const height = holder.clientWidth * initialRatio;
+
+    if (progress == EProgress.Done) {
+      app.renderer.resize(width, height);
+    }
+  }, [progress, width, height]);
+
+  if (progress < EProgress.AssetsLoaded) return null;
 
   const cols = [90, 360, 640];
 
@@ -142,7 +175,7 @@ const RogueTree: FC = () => {
         <Skill skill={RogueSkills[15]} x={cols[2]} y={360} />
       </Container>
 
-      {showRequirements && (
+      {progress >= EProgress.RequirementsShown && (
         <Container>
           <SkillLine from={3} to={4} />
           <SkillLine from={4} to={5} />

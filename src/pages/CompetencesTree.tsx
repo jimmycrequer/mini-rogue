@@ -1,4 +1,4 @@
-import { FC, ReactElement, useEffect, useRef, useState } from "react";
+import { FC, ReactElement, useRef } from "react";
 import {
   Character,
   CharacterContext,
@@ -26,7 +26,6 @@ export const initialCanvasSize = { width: 731, height: 1411 };
 export const initialRatio = 1411 / 731;
 
 const CompetencesTree: FC = () => {
-  const [myApp, setApp] = useState<PIXI.Application<PIXI.ICanvas>>();
   const character = useCharacter();
   const dispatch = useCharacterDispatch();
 
@@ -34,8 +33,6 @@ const CompetencesTree: FC = () => {
   const previousSize = useRef({ width, height });
 
   const handleMount = (app: PIXI.Application<PIXI.ICanvas>) => {
-    setApp(app);
-
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore needed for PIXI debugger extension
     globalThis.__PIXI_APP__ = app;
@@ -45,6 +42,7 @@ const CompetencesTree: FC = () => {
     app.renderer.view.style!.touchAction = "auto";
 
     app.renderer.on("resize", (width, height) => {
+      console.log("resize", app.stage.children.length);
       for (let i = 0; i < app.stage.children.length; i++) {
         const child = app.stage.children[i] as PIXI.Container;
 
@@ -60,17 +58,6 @@ const CompetencesTree: FC = () => {
       previousSize.current = { width, height };
     });
   };
-
-  useEffect(() => {
-    if (!myApp?.renderer) return;
-
-    const holder = document.getElementById("canvasHolder")!;
-
-    const width = holder.clientWidth;
-    const height = holder.clientWidth * initialRatio;
-
-    myApp.renderer.resize(width, height);
-  }, [width, height, myApp?.renderer]);
 
   return !character.class ? (
     <div />

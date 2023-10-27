@@ -1,12 +1,14 @@
 import { FC, useEffect, useState } from "react";
 import Skill from "./Skill";
 import { KnightSkills } from "../skills";
-import { Container } from "@pixi/react";
+import { Container, useApp } from "@pixi/react";
 import MerchantLabel from "./trees/MerchantLabel";
 import ExplorationLabel from "./trees/ExplorationLabel";
 import BattleLabel from "./trees/BattleLabel";
 import SkillLine from "./SkillLine";
 import * as PIXI from "pixi.js";
+import { useWindowSize } from "@uidotdev/usehooks";
+import { initialRatio } from "../pages/CompetencesTree";
 
 const commonTreeAssets = [
   "/trees/common/auto-disabled.png",
@@ -55,21 +57,52 @@ const knightSkillAssets = [
   "/trees/knight/skills/14-disabled.png",
 ];
 
+enum EProgress {
+  Init,
+  AssetsLoaded,
+  RequirementsShown,
+  Done,
+}
+
 const KnightTree: FC = () => {
-  const [assetsLoaded, setAssetsLoaded] = useState(false);
-  const [showRequirements, setShowRequirements] = useState(false);
+  const [progress, setProgress] = useState(EProgress.Init);
+  const app = useApp();
+  const { width, height } = useWindowSize();
 
   useEffect(() => {
-    PIXI.Assets.load([...commonTreeAssets, ...knightTreeAssets, ...knightSkillAssets]).finally(() => {
-      setAssetsLoaded(true);
-    });
-  }, []);
+    if (progress == EProgress.Init) {
+      PIXI.Assets.load([...commonTreeAssets, ...knightTreeAssets, ...knightSkillAssets]).finally(() => {
+        setProgress(EProgress.AssetsLoaded);
+      });
+
+      return;
+    }
+
+    if (progress == EProgress.AssetsLoaded) {
+      setProgress(EProgress.RequirementsShown);
+
+      return;
+    }
+
+    if (progress == EProgress.RequirementsShown) {
+      setProgress(EProgress.Done);
+
+      return;
+    }
+  }, [progress]);
 
   useEffect(() => {
-    if (assetsLoaded) setShowRequirements(true);
-  }, [assetsLoaded]);
+    const holder = document.getElementById("canvasHolder")!;
 
-  if (!assetsLoaded) return null;
+    const width = holder.clientWidth;
+    const height = holder.clientWidth * initialRatio;
+
+    if (progress == EProgress.Done) {
+      app.renderer.resize(width, height);
+    }
+  }, [progress, width, height]);
+
+  if (progress < EProgress.AssetsLoaded) return null;
 
   const cols = [120, 370, 630];
 
@@ -107,7 +140,7 @@ const KnightTree: FC = () => {
       <Skill skill={KnightSkills[11]} x={cols[2]} y={950} />
       <Skill skill={KnightSkills[13]} x={cols[2]} y={1180} />
 
-      {showRequirements && (
+      {progress >= EProgress.RequirementsShown && (
         <Container>
           <SkillLine from={6} to={7} />
           <SkillLine from={8} to={9} fromAnchor={0.33} />

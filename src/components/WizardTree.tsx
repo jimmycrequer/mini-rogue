@@ -1,13 +1,15 @@
 import { FC, useEffect, useState } from "react";
 import Skill from "./Skill";
 import { WizardSkills } from "../skills";
-import { Container } from "@pixi/react";
+import { Container, useApp } from "@pixi/react";
 import StatisticsLabel from "./trees/StatisticsLabel";
 import MerchantLabel from "./trees/MerchantLabel";
 import BattleLabel from "./trees/BattleLabel";
 import ExplorationLabel from "./trees/ExplorationLabel";
 import SkillLine from "./SkillLine";
 import * as PIXI from "pixi.js";
+import { useWindowSize } from "@uidotdev/usehooks";
+import { initialRatio } from "../pages/CompetencesTree";
 
 const commonTreeAssets = [
   "/trees/common/auto-disabled.png",
@@ -53,21 +55,52 @@ const wizardSkillAssets = [
   "/trees/wizard/skills/12-disabled.png",
 ];
 
+enum EProgress {
+  Init,
+  AssetsLoaded,
+  RequirementsShown,
+  Done,
+}
+
 const WizardTree: FC = () => {
-  const [assetsLoaded, setAssetsLoaded] = useState(false);
-  const [showRequirements, setShowRequirements] = useState(false);
+  const [progress, setProgress] = useState(EProgress.Init);
+  const app = useApp();
+  const { width, height } = useWindowSize();
 
   useEffect(() => {
-    PIXI.Assets.load([...commonTreeAssets, ...wizardTreeAssets, ...wizardSkillAssets]).finally(() => {
-      setAssetsLoaded(true);
-    });
-  }, []);
+    if (progress == EProgress.Init) {
+      PIXI.Assets.load([...commonTreeAssets, ...wizardTreeAssets, ...wizardSkillAssets]).finally(() => {
+        setProgress(EProgress.AssetsLoaded);
+      });
+
+      return;
+    }
+
+    if (progress == EProgress.AssetsLoaded) {
+      setProgress(EProgress.RequirementsShown);
+
+      return;
+    }
+
+    if (progress == EProgress.RequirementsShown) {
+      setProgress(EProgress.Done);
+
+      return;
+    }
+  }, [progress]);
 
   useEffect(() => {
-    if (assetsLoaded) setShowRequirements(true);
-  }, [assetsLoaded]);
+    const holder = document.getElementById("canvasHolder")!;
 
-  if (!assetsLoaded) return null;
+    const width = holder.clientWidth;
+    const height = holder.clientWidth * initialRatio;
+
+    if (progress == EProgress.Done) {
+      app.renderer.resize(width, height);
+    }
+  }, [progress, width, height]);
+
+  if (progress < EProgress.AssetsLoaded) return null;
 
   const cols = [110, 375, 640];
 
@@ -112,7 +145,7 @@ const WizardTree: FC = () => {
         <Skill skill={WizardSkills[11]} x={cols[2]} />
       </Container>
 
-      {showRequirements && (
+      {progress >= EProgress.RequirementsShown && (
         <Container>
           <SkillLine from={1} to={2} />
           <SkillLine from={3} to={4} />
