@@ -42,7 +42,6 @@ const CompetencesTree: FC = () => {
     app.renderer.view.style!.touchAction = "auto";
 
     app.renderer.on("resize", (width, height) => {
-      console.log("resize", app.stage.children.length);
       for (let i = 0; i < app.stage.children.length; i++) {
         const child = app.stage.children[i] as PIXI.Container;
 
