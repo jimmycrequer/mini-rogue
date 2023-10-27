@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import Skill from "./Skill";
 import { WizardSkills } from "../skills";
-import { Container, useApp } from "@pixi/react";
+import { Container, useApp, Text } from "@pixi/react";
 import StatisticsLabel from "./trees/StatisticsLabel";
 import MerchantLabel from "./trees/MerchantLabel";
 import BattleLabel from "./trees/BattleLabel";
@@ -100,7 +100,8 @@ const WizardTree: FC = () => {
     }
   }, [progress, width, height]);
 
-  if (progress < EProgress.AssetsLoaded) return null;
+  if (progress < EProgress.AssetsLoaded)
+    return <Text text="CHARGEMENT..." anchor={0.5} x={200} y={50} style={new PIXI.TextStyle({ fontSize: 16 })} />;
 
   const cols = [110, 375, 640];
 

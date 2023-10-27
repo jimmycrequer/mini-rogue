@@ -9,7 +9,7 @@ import StatisticsLabel from "./trees/StatisticsLabel";
 import SkillLine from "./SkillLine";
 import * as PIXI from "pixi.js";
 import { useCharacter } from "../characterContext";
-import { initialRatio } from "../pages/CompetencesTree";
+import { initialCanvasSize, initialRatio } from "../pages/CompetencesTree";
 import { useWindowSize } from "@uidotdev/usehooks";
 
 const commonTreeAssets = [
@@ -111,7 +111,8 @@ const RogueTree: FC = () => {
     }
   }, [progress, width, height]);
 
-  if (progress < EProgress.AssetsLoaded) return null;
+  if (progress < EProgress.AssetsLoaded)
+    return <Text text="CHARGEMENT..." anchor={0.5} x={200} y={50} style={new PIXI.TextStyle({ fontSize: 16 })} />;
 
   const cols = [90, 360, 640];
 
