@@ -9,7 +9,7 @@ import StatisticsLabel from "./trees/StatisticsLabel";
 import SkillLine from "./SkillLine";
 import * as PIXI from "pixi.js";
 import { useCharacter } from "../characterContext";
-import { initialCanvasSize, initialRatio } from "../pages/CompetencesTree";
+import { initialRatio } from "../pages/CompetencesTree";
 import { useWindowSize } from "@uidotdev/usehooks";
 
 const commonTreeAssets = [
