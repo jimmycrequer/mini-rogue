@@ -9,4 +9,5 @@ Conception : Paolo Di Stefano et Gabriel Gendron
 Illustrations : Gabriel Gendron
 Publication : Nuts Publishing
 
-![image](https://github.com/jimmycrequer/mini-rogue/assets/26185218/66d8935e-10c1-4b69-92df-e077de220901)
+![image](https://github.com/jimmycrequer/mini-rogue/assets/26185218/d92cb478-2863-473e-a236-44325c01f41f)
+
