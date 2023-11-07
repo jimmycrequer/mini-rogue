@@ -224,7 +224,7 @@ const Rules: FC = () => {
         </div>
 
         <p>
-          Le compteur de droite "XP utilisés" augmente directement après l'activation d'une compétence. Assurez-vous
+          Le compteur de droite "XP utilisés" augmente automatiquement après l'activation d'une compétence. Assurez-vous
           d'avoir acquis assez de points d'XP pour activer une compétence.
         </p>
 
